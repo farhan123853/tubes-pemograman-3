@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk — MediQueue</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css" />
+</head>
+<body id="login-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">M</div>
+        MediQueue
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Beranda</a>
+        <a href="index.html#fitur">Fitur</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="index.html#kontak">Kontak</a>
+      </div>
+      <div class="nav-actions">
+        <button class="theme-slider" id="theme-toggle" aria-label="Toggle dark mode">
+          <span class="theme-knob" id="theme-knob">☀️</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- AUTH SPLIT LAYOUT -->
+  <div class="auth-split">
+
+    <!-- Panel Kiri -->
+    <div class="auth-panel-left">
+      <a href="index.html" class="auth-brand-logo">
+        <div class="auth-brand-icon">M</div>
+        MediQueue
+      </a>
+      <h1 class="auth-panel-headline">
+        Antrian lebih cepat,<br>
+        <span>pengalaman lebih baik.</span>
+      </h1>
+      <p class="auth-panel-tagline">
+        Kelola antrian klinik secara digital. Tidak perlu lagi menunggu berjam-jam tanpa kepastian.
+      </p>
+      <div class="auth-features">
+        <div class="auth-feature-item">
+          <div class="auth-feature-dot">✓</div>
+          Nomor antrian digital real-time
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-dot">✓</div>
+          Estimasi waktu tunggu akurat
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-dot">✓</div>
+          Riwayat kunjungan tersimpan
+        </div>
+        <div class="auth-feature-item">
+          <div class="auth-feature-dot">✓</div>
+          Notifikasi giliran langsung
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel Kanan -->
+    <div class="auth-panel-right">
+      <div class="auth-form-box">
+        <div class="auth-icon"><i class="ti ti-building-hospital"></i></div>
+        <div class="auth-header">
+          <h2>Selamat datang</h2>
+          <p>Masuk untuk melanjutkan ke MediQueue</p>
+        </div>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="ti ti-mail"></i></span>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="nama@email.com"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <span class="input-icon"><i class="ti ti-lock"></i></span>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                class="form-input"
+                placeholder="Masukkan password"
+                required
+              />
+            </div>
+            <div class="forgot-wrap">
+              <a href="#">Lupa password?</a>
+            </div>
+          </div>
+
+          <button type="submit" class="auth-btn" id="submit-btn">
+            Masuk
+          </button>
+        </form>
+
+        <div class="divider">atau</div>
+
+        <div class="auth-footer">
+          Belum punya akun?
+          <a href="register.html">Daftar sekarang</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediQueue - Sistem Antrian Klinik Modern</title>
+  <meta name="description" content="MediQueue adalah sistem antrian klinik online. Ambil nomor antrian dari rumah, pantau status pelayanan secara real-time, dan hemat waktu tunggu Anda.">
+  <meta property="og:title" content="MediQueue - Sistem Antrian Klinik Modern">
+  <meta property="og:description" content="Ambil nomor antrian klinik secara online dan pantau status pelayanan secara real-time.">
+  <meta property="og:type" content="website">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+</head>
+
+<body id="index-page">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">Q</div>
+        MediQueue
+      </a>
+      <div class="nav-links">
+        <a href="#beranda">Beranda</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#kontak">Kontak</a>
+      </div>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-slider" title="Toggle Tema" aria-label="Ganti tema gelap/terang">
+          <span class="theme-knob" id="theme-knob"><i class="ti ti-sun"></i></span>
+        </button>
+        <a id="nav-cta" href="login.html">
+          <button id="nav-cta-btn" class="nav-btn">Login / Daftar</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="hero container" id="beranda">
+    <h1>Sistem Antrian Klinik <span>MediQueue</span></h1>
+    <p>Mudah, cepat, dan transparan. Ambil nomor antrian Anda secara online dan pantau status pelayanan secara real-time
+      langsung dari rumah Anda.</p>
+    <div class="cta-group">
+      <a href="dashboard_pasien.html">
+        <button class="nav-btn">Ambil Nomor Antrian</button>
+      </a>
+      <a id="hero-secondary-link" href="login.html">
+        <button class="nav-btn secondary">Dashboard Saya</button>
+      </a>
+    </div>
+  </header>
+
+  <!-- CARA KERJA SECTION -->
+  <section class="how-it-works container">
+    <h2 class="section-title">Cara Kerja</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-icon"><i class="ti ti-user-plus"></i></div>
+        <h4>Daftar / Masuk</h4>
+        <p>Buat akun atau masuk dengan email Anda dalam hitungan detik.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-icon"><i class="ti ti-ticket"></i></div>
+        <h4>Ambil Nomor Antrian</h4>
+        <p>Klik satu tombol untuk mendapatkan nomor antrian Anda hari ini.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-icon"><i class="ti ti-activity"></i></div>
+        <h4>Pantau Real-Time</h4>
+        <p>Lihat posisi antrian dan estimasi waktu tunggu Anda kapan saja.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-icon"><i class="ti ti-bell-ringing"></i></div>
+        <h4>Dipanggil & Dilayani</h4>
+        <p>Dapatkan notifikasi saat giliran Anda tiba, lalu menuju ruang periksa.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIVE MONITOR SECTION -->
+  <main class="container live-monitor">
+    <h2 class="section-title">Status Antrian Hari Ini</h2>
+
+    <div class="monitor-grid">
+      <!-- Active Number Card -->
+      <section class="card active-number-card">
+        <div class="active-label">
+          <span class="pulse-dot"></span>
+          Melayani Sekarang
+        </div>
+        <div id="current-serving-number" class="active-num">--</div>
+        <p id="current-serving-status" style="color: var(--text-secondary); font-size: 0.9rem; font-weight: 600;">Tidak
+          ada antrian aktif</p>
+      </section>
+
+      <!-- Queue List Panel -->
+      <section class="card queue-list-panel">
+        <div class="panel-header">
+          <h3>Daftar Antrian Aktif</h3>
+          <span id="active-count-badge" class="badge status-menunggu"
+            style="background-color: var(--color-brand-light); color: var(--color-brand)">0 Antrian</span>
+        </div>
+
+        <div class="queue-table-wrapper">
+          <table class="queue-table">
+            <thead>
+              <tr>
+                <th>No. Antrian</th>
+                <th>Waktu Ambil</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="active-queues-table-body">
+              <tr>
+                <td colspan="3" class="empty-state">Memuat data antrian...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- DOKTER HARI INI -->
+  <section class="dokter-section container">
+    <h2 class="section-title">Dokter yang Praktik Hari Ini</h2>
+    <div class="dokter-grid" id="index-dokter-grid">
+      <p style="color: var(--text-secondary); font-size: 0.9rem;">Memuat info dokter...</p>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats-bar container">
+    <div class="stat-bar-item">
+      <div class="stat-bar-number">500+</div>
+      <div class="stat-bar-label">Pasien Terlayani</div>
+    </div>
+    <div class="stat-bar-divider"></div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-number">10+</div>
+      <div class="stat-bar-label">Dokter Aktif</div>
+    </div>
+    <div class="stat-bar-divider"></div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-number">98%</div>
+      <div class="stat-bar-label">Efisiensi Waktu</div>
+    </div>
+    <div class="stat-bar-divider"></div>
+    <div class="stat-bar-item">
+      <div class="stat-bar-number">24/7</div>
+      <div class="stat-bar-label">Sistem Online</div>
+    </div>
+  </section>
+
+  <!-- FITUR UNGGULAN -->
+  <section class="features-section container" id="fitur">
+    <h2 class="section-title">Fitur Unggulan</h2>
+    <div class="features-grid">
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-ticket"></i></div>
+        <h4>Ambil Antrian Online</h4>
+        <p>Ambil nomor antrian dari rumah, tanpa perlu datang lebih awal.</p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-broadcast"></i></div>
+        <h4>Pantau Real-Time</h4>
+        <p>Status antrian diperbarui otomatis setiap saat secara langsung.</p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-bell-ringing"></i></div>
+        <h4>Notifikasi Panggilan</h4>
+        <p>Dapatkan pemberitahuan ketika nomor antrian Anda dipanggil.</p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-clipboard-list"></i></div>
+        <h4>Riwayat Kunjungan</h4>
+        <p>Lihat seluruh riwayat antrian dan kunjungan klinik Anda.</p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-stethoscope"></i></div>
+        <h4>Manajemen Petugas</h4>
+        <p>Petugas dapat memanggil dan menyelesaikan antrian dengan mudah.</p>
+      </div>
+      <div class="feature-card card">
+        <div class="feature-icon"><i class="ti ti-shield-lock"></i></div>
+        <h4>Aman & Terenkripsi</h4>
+        <p>Data pasien dilindungi dengan sistem keamanan berlapis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TENTANG SECTION -->
+  <section class="about-section container" id="tentang">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2 class="section-title" style="text-align:left;">Tentang MediQueue</h2>
+        <p>MediQueue dikembangkan untuk Klinik Pratama dalam menghadirkan layanan antrian yang lebih manusiawi: tanpa berdesakan, tanpa menebak-nebak giliran. Pasien cukup ambil nomor dari ponsel, lalu datang tepat waktu sesuai estimasi.</p>
+        <p>Bagi petugas, sistem ini menyederhanakan alur kerja: memanggil, menyelesaikan, dan memantau antrian dalam satu dashboard real-time — tanpa kertas, tanpa pencatatan manual.</p>
+        <div class="about-points">
+          <div class="about-point">
+            <i class="ti ti-circle-check"></i>
+            <span>Dikembangkan khusus untuk klinik pratama</span>
+          </div>
+          <div class="about-point">
+            <i class="ti ti-circle-check"></i>
+            <span>Data tersimpan aman di server terenkripsi</span>
+          </div>
+          <div class="about-point">
+            <i class="ti ti-circle-check"></i>
+            <span>Bisa diakses dari perangkat apa saja</span>
+          </div>
+        </div>
+      </div>
+      <div class="about-visual">
+        <div class="about-visual-icon"><i class="ti ti-building-hospital"></i></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAK SECTION -->
+  <section class="contact-section container" id="kontak">
+    <h2 class="section-title">Kontak Kami</h2>
+    <div class="contact-grid">
+      <div class="contact-card card">
+        <div class="contact-icon"><i class="ti ti-map-pin"></i></div>
+        <h4>Alamat</h4>
+        <p>Jl. Kesehatan Raya No. 12, Bandung, Jawa Barat</p>
+      </div>
+      <div class="contact-card card">
+        <div class="contact-icon"><i class="ti ti-phone"></i></div>
+        <h4>Telepon</h4>
+        <p>(022) 1234-5678</p>
+      </div>
+      <div class="contact-card card">
+        <div class="contact-icon"><i class="ti ti-mail"></i></div>
+        <h4>Email</h4>
+        <p>halo@mediqueue.id</p>
+      </div>
+      <div class="contact-card card">
+        <div class="contact-icon"><i class="ti ti-clock"></i></div>
+        <h4>Jam Operasional</h4>
+        <p>Senin – Sabtu, 08.00 – 20.00 WIB</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col footer-brand">
+        <a href="index.html" class="logo">
+          <div class="logo-icon">Q</div>
+          MediQueue
+        </a>
+        <p>Sistem antrian klinik online — mudah, cepat, dan transparan.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Navigasi</h5>
+        <a href="#beranda">Beranda</a>
+        <a href="#fitur">Fitur</a>
+        <a href="#tentang">Tentang</a>
+        <a href="#kontak">Kontak</a>
+      </div>
+      <div class="footer-col">
+        <h5>Akun</h5>
+        <a href="login.html">Login</a>
+        <a href="register.html">Daftar</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 MediQueue Klinik Pratama. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

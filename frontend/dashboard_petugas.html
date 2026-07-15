@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Petugas - MediQueue</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+</head>
+
+<body id="petugas-dashboard">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">Q</div>
+        MediQueue
+      </a>
+      <div class="nav-links">
+        <a href="index.html#beranda">Beranda</a>
+        <a href="index.html#fitur">Fitur</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="index.html#kontak">Kontak</a>
+      </div>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-slider" title="Toggle Tema" aria-label="Ganti tema gelap/terang">
+          <span class="theme-knob" id="theme-knob"><i class="ti ti-sun"></i></span>
+        </button>
+        <a href="index.html">
+          <button class="nav-btn secondary">Monitor Publik</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD LAYOUT -->
+  <main class="container dashboard-layout">
+    <!-- Welcome Header -->
+    <div class="welcome-banner">
+      <div class="welcome-info">
+        <h2>Dashboard Petugas — <span id="petugas-name">Petugas</span> <i class="ti ti-stethoscope"></i></h2>
+        <p>Kelola dan proses antrian pasien hari ini secara real-time</p>
+      </div>
+      <button id="logout-btn" class="logout-btn">Keluar</button>
+    </div>
+
+    <!-- STATS CARDS GRID -->
+    <section class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">
+          <i class="ti ti-ticket"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Total Antrian</span>
+          <span id="stat-total" class="stat-value">0</span>
+        </div>
+        <div class="stat-trend trend-up" id="trend-total">
+          <i class="ti ti-trending-up"></i>
+          <span>hari ini</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--waiting">
+        <div class="stat-icon">
+          <i class="ti ti-clock-hour-4"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Menunggu</span>
+          <span id="stat-waiting" class="stat-value">0</span>
+        </div>
+        <div class="stat-trend trend-neutral" id="trend-waiting">
+          <i class="ti ti-minus"></i>
+          <span>antri</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--serving">
+        <div class="stat-icon">
+          <i class="ti ti-speakerphone"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Sedang Dipanggil</span>
+          <span id="stat-serving" class="stat-value">0</span>
+        </div>
+        <div class="stat-trend trend-active" id="trend-serving">
+          <i class="ti ti-circle-filled"></i>
+          <span>live</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card--done">
+        <div class="stat-icon">
+          <i class="ti ti-circle-check"></i>
+        </div>
+        <div class="stat-info">
+          <span class="stat-label">Selesai</span>
+          <span id="stat-done" class="stat-value">0</span>
+        </div>
+        <div class="stat-trend trend-up" id="trend-done">
+          <i class="ti ti-trending-up"></i>
+          <span>dilayani</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACTIVE QUEUE LIST WITH PANEL CONTROLS -->
+    <section class="card">
+      <div class="panel-header">
+        <h3>Kelola antrian pasien</h3>
+        <button id="refresh-btn" class="nav-btn secondary"
+          style="font-size: 0.8rem; padding: 0.35rem 0.75rem; display:inline-flex; align-items:center; gap:0.35rem;">
+          <i class="ti ti-refresh" style="font-size:1rem;"></i> Segarkan
+        </button>
+      </div>
+
+      <div class="queue-table-wrapper">
+        <table class="queue-table">
+          <thead>
+            <tr>
+              <th>No. Antrian</th>
+              <th>Nama Pasien</th>
+              <th>Waktu Ambil</th>
+              <th>Status</th>
+              <th>Aksi Petugas</th>
+            </tr>
+          </thead>
+          <tbody id="petugas-queues-table-body">
+            <tr>
+              <td colspan="5">
+                <div class="empty-state empty-state--loading">
+                  <div class="empty-state-icon"><i class="ti ti-loader-2"></i></div>
+                  <p class="empty-state-title">Memuat data antrian...</p>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 MediQueue Klinik Pratama. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

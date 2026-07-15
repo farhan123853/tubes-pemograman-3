@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel — MediQueue</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body id="admin-dashboard">
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">M</div>
+                MediQueue
+            </a>
+            <div class="nav-links">
+                <a href="#overview">Overview</a>
+                <a href="#petugas">Petugas</a>
+                <a href="#poli">Poli</a>
+                <a href="#antrian">Monitor Antrian</a>
+            </div>
+            <div class="nav-actions">
+                <button class="theme-slider" id="theme-toggle" aria-label="Toggle dark mode">
+                    <span class="theme-knob" id="theme-knob">☀️</span>
+                </button>
+                <button class="logout-btn" id="logout-btn">
+                    <i class="ti ti-logout"></i> Keluar
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-layout container">
+
+        <!-- ── HEADER ──────────────────────────────────────────────────── -->
+        <div class="dashboard-header">
+            <div>
+                <h1 class="dashboard-title">Admin Panel 🛡️</h1>
+                <p class="dashboard-subtitle">Halo, <strong id="admin-name">Admin</strong> — kelola seluruh sistem
+                    MediQueue dari sini.</p>
+            </div>
+        </div>
+
+        <!-- ── STAT CARDS ───────────────────────────────────────────────── -->
+        <section id="overview">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(22,163,74,0.12); color: var(--color-brand);">
+                        <i class="ti ti-users"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="stat-total-pasien">–</div>
+                        <div class="stat-label">Total Pasien</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(59,130,246,0.12); color: #3b82f6;">
+                        <i class="ti ti-stethoscope"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="stat-total-petugas">–</div>
+                        <div class="stat-label">Total Petugas</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(234,179,8,0.12); color: #ca8a04;">
+                        <i class="ti ti-clipboard-list"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="stat-antrian-hari-ini">–</div>
+                        <div class="stat-label">Antrian Hari Ini</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(168,85,247,0.12); color: #a855f7;">
+                        <i class="ti ti-building-hospital"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="stat-total-poli">–</div>
+                        <div class="stat-label">Total Poli</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── JADWAL DOKTER HARI INI ─────────────────────────────────── -->
+        <section id="jadwal" class="dashboard-section">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title"><i class="ti ti-stethoscope"></i> Dokter Praktik Hari Ini</h2>
+              <p class="section-subtitle">Tandai dokter yang hadir dan sedang bertugas</p>
+            </div>
+            <button class="refresh-btn" id="refresh-jadwal-btn">
+              <i class="ti ti-refresh"></i> Refresh
+            </button>
+          </div>
+          <div class="dokter-grid" id="admin-dokter-grid">
+            <p style="color: var(--text-secondary); font-size: 0.9rem; padding: 1rem 0;">Memuat data dokter...</p>
+          </div>
+        </section>
+
+        <!-- ── MANAJEMEN PETUGAS ────────────────────────────────────────── -->
+        <section id="petugas" class="dashboard-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="ti ti-stethoscope"></i> Manajemen Petugas</h2>
+                    <p class="section-subtitle">Tambah atau hapus akun petugas / dokter</p>
+                </div>
+            </div>
+
+            <!-- Form tambah petugas -->
+            <div class="card admin-form-card">
+                <h3 class="admin-form-title">Tambah Akun Petugas</h3>
+                <form id="add-petugas-form" class="admin-inline-form">
+                    <div class="form-group">
+                        <label for="petugas-nama">Nama Lengkap</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-user"></i></span>
+                            <input type="text" id="petugas-nama" class="form-input" placeholder="Nama petugas"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="petugas-email">Email</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-mail"></i></span>
+                            <input type="email" id="petugas-email" class="form-input" placeholder="email@klinik.com"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="petugas-password">Password</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-lock"></i></span>
+                            <input type="password" id="petugas-password" class="form-input"
+                                placeholder="Minimal 8 karakter" required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="petugas-poli">Poli / Layanan</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-building-hospital"></i></span>
+                            <input type="text" id="petugas-poli" class="form-input" placeholder="Contoh: Poli Umum" />
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-btn" style="margin-top: 0.5rem;">
+                        <i class="ti ti-user-plus"></i> Tambah Petugas
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tabel daftar petugas -->
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="table-header">
+                    <h3 class="table-title">Daftar Petugas</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nama</th>
+                                <th>Email</th>
+                                <th>Poli</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="petugas-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align:center; color: var(--text-secondary); padding: 2rem;">
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── MANAJEMEN POLI ───────────────────────────────────────────── -->
+        <section id="poli" class="dashboard-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="ti ti-building-hospital"></i> Manajemen Poli</h2>
+                    <p class="section-subtitle">Kelola poli dan jenis layanan yang tersedia</p>
+                </div>
+            </div>
+
+            <!-- Form tambah poli -->
+            <div class="card admin-form-card">
+                <h3 class="admin-form-title">Tambah Poli / Layanan</h3>
+                <form id="add-poli-form" class="admin-inline-form admin-inline-form--2col">
+                    <div class="form-group">
+                        <label for="poli-nama">Nama Poli</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-building-hospital"></i></span>
+                            <input type="text" id="poli-nama" class="form-input" placeholder="Contoh: Poli Gigi"
+                                required />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="poli-deskripsi">Deskripsi</label>
+                        <div class="input-wrap">
+                            <span class="input-icon"><i class="ti ti-notes"></i></span>
+                            <input type="text" id="poli-deskripsi" class="form-input" placeholder="Opsional" />
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-btn" style="margin-top: 0.5rem; align-self: flex-end;">
+                        <i class="ti ti-plus"></i> Tambah Poli
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tabel daftar poli -->
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="table-header">
+                    <h3 class="table-title">Daftar Poli</h3>
+                </div>
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Nama Poli</th>
+                                <th>Deskripsi</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="poli-table-body">
+                            <tr>
+                                <td colspan="3" style="text-align:center; color: var(--text-secondary); padding: 2rem;">
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── MONITOR ANTRIAN ─────────────────────────────────────────── -->
+        <section id="antrian" class="dashboard-section">
+            <div class="section-header">
+                <div>
+                    <h2 class="section-title"><i class="ti ti-clipboard-list"></i> Monitor Antrian</h2>
+                    <p class="section-subtitle">Semua antrian aktif dari seluruh poli secara real-time</p>
+                </div>
+                <button class="refresh-btn" id="refresh-antrian-btn">
+                    <i class="ti ti-refresh"></i> Refresh
+                </button>
+            </div>
+
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>No. Antrian</th>
+                                <th>Pasien</th>
+                                <th>Poli</th>
+                                <th>Waktu</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-antrian-table-body">
+                            <tr>
+                                <td colspan="5" style="text-align:center; color: var(--text-secondary); padding: 2rem;">
+                                    Memuat data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- /dashboard-layout -->
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

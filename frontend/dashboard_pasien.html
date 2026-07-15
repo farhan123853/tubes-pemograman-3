@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Pasien - MediQueue</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
+</head>
+
+<body id="pasien-dashboard">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">Q</div>
+        MediQueue
+      </a>
+      <div class="nav-links">
+        <a href="index.html#beranda">Beranda</a>
+        <a href="index.html#fitur">Fitur</a>
+        <a href="index.html#tentang">Tentang</a>
+        <a href="index.html#kontak">Kontak</a>
+      </div>
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-slider" title="Toggle Tema">
+          <span class="theme-knob" id="theme-knob">☀️</span>
+        </button>
+        <a href="index.html">
+          <button class="nav-btn secondary">Monitor Publik</button>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- DASHBOARD LAYOUT -->
+  <main class="container dashboard-layout">
+
+    <!-- Welcome Header -->
+    <div class="welcome-banner">
+      <div class="welcome-info">
+        <h2>Selamat Datang, <span id="pasien-name">Pasien</span> 👋</h2>
+        <p>Kelola nomor antrian klinik Anda di sini</p>
+      </div>
+      <div style="display:flex; gap:0.75rem; align-items:center;">
+        <a href="profil.html">
+          <button class="nav-btn secondary" style="padding:0.5rem 1rem; font-size:0.85rem;">
+            <i class="ti ti-user-circle"></i> Profil Saya
+          </button>
+        </a>
+        <button id="logout-btn" class="logout-btn">
+          <i class="ti ti-logout"></i> Keluar
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Serving Summary Bar -->
+    <div class="serving-bar card">
+      <div class="serving-bar-item">
+        <div class="serving-bar-label">
+          <span class="pulse-dot"></span>
+          Nomor sedang dilayani
+        </div>
+        <div id="clinic-serving-number" class="serving-bar-value">--</div>
+      </div>
+      <div class="serving-bar-divider"></div>
+      <div class="serving-bar-item">
+        <div class="serving-bar-label">
+          <i class="ti ti-users" style="font-size:0.85rem;"></i>
+          Total antrian aktif
+        </div>
+        <div id="clinic-active-count" class="serving-bar-value brand">0</div>
+      </div>
+      <div class="serving-bar-divider"></div>
+      <div class="serving-bar-item">
+        <div class="serving-bar-label">
+          <i class="ti ti-clock" style="font-size:0.85rem;"></i>
+          Estimasi waktu tunggu
+        </div>
+        <div id="estimasi-tunggu" class="serving-bar-value">–</div>
+      </div>
+    </div>
+
+    <!-- Dokter Hari Ini -->
+    <section class="dokter-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title" style="font-size: 1.1rem; margin-bottom: 0;">Dokter yang Praktik Hari Ini</h2>
+          <p class="section-subtitle">Pilih dokter untuk langsung ambil antrian</p>
+        </div>
+      </div>
+      <div class="dokter-grid" id="pasien-dokter-grid">
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">Memuat info dokter...</p>
+      </div>
+    </section>
+
+    <!-- Main Grid Content -->
+    <div class="pasien-grid">
+
+      <!-- LEFT COLUMN: CURRENT TICKET / TAKE TICKET -->
+      <section id="ticket-section">
+        <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+          <p style="color: var(--text-secondary)">Memuat informasi antrian...</p>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: HISTORY -->
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <section class="card">
+          <div class="panel-header">
+            <h3>Riwayat antrian Anda</h3>
+          </div>
+          <div class="queue-table-wrapper">
+            <table class="queue-table">
+              <thead>
+                <tr>
+                  <th>No. Antrian</th>
+                  <th>Tanggal</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="history-table-body">
+                <tr>
+                  <td colspan="3" class="empty-state">Memuat riwayat antrian...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- TOAST CONTAINER FOR NOTIFICATIONS -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 MediQueue Klinik Pratama. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
