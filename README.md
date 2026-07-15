@@ -1,24 +1,42 @@
 # 🏥 MediQueue — Sistem Antrian Klinik Online (Microservices)
 
-MediQueue adalah aplikasi manajemen antrian klinik berbasis web dengan arsitektur microservices. Aplikasi ini memisahkan layanan autentikasi/user dengan layanan antrian untuk menjamin skalabilitas dan performa yang lebih baik.
+MediQueue adalah aplikasi manajemen antrian klinik online berbasis web. Aplikasi ini memungkinkan pasien untuk mendaftar dan mengambil nomor antrian dari mana saja tanpa perlu mengantre secara fisik di lokasi. Petugas medis dan dokter dapat mengelola antrian secara real-time melalui dashboard mereka masing-masing.
+
+Proyek ini dirancang menggunakan arsitektur **Microservices** dengan pendekatan **Database-per-Service** untuk menjamin fleksibilitas dan skalabilitas layanan.
 
 ---
 
-## 🛠️ Tech Stack & Microservices
+## 🛠️ Bahasa Pemrograman & Framework
 
-Aplikasi ini dibagi menjadi dua microservices utama yang berjalan secara independen:
+Proyek ini dibangun menggunakan kombinasi teknologi modern yang ringan namun tangguh:
 
-### 1. Auth Service (Port `5001`)
-* **Peran:** Mengelola autentikasi pengguna (Registrasi & Login), Profil, Jadwal Dokter, sekaligus bertindak sebagai **Reverse Proxy Gateway** yang menyajikan frontend.
-* **Database:** MySQL (`mediqueue_auth_db`)
-* **Teknologi:** Flask, Flask-RESTX, Flask-SQLAlchemy, Flask-JWT-Extended, Flask-Bcrypt
-* **Swagger UI Docs:** `http://localhost:5001/api/docs`
+### 1. Backend (Microservices)
+* **Bahasa Pemrograman:** Python 3.10+
+* **Framework Utama:** **Flask 3.0.3**
+* **Framework API & Dokumentasi:** **Flask-RESTX 1.3.0** (untuk RESTful API & Swagger UI otomatis)
+* **ORM (Database Mapper):** **Flask-SQLAlchemy 3.1.1**
+* **Driver Database:** **PyMySQL 1.1.0** (untuk koneksi ke MySQL)
+* **Keamanan & Autentikasi:**
+  * **Flask-JWT-Extended 4.6.0** (Autentikasi stateless menggunakan JSON Web Token)
+  * **Flask-Bcrypt 1.0.1** (Hashing password aman)
 
-### 2. Queue Service (Port `5002`)
-* **Peran:** Mengelola seluruh data antrian (pengambilan antrian, pemanggilan, status, riwayat, rekap statistik).
-* **Database:** MySQL (`mediqueue_queue_db`)
-* **Teknologi:** Flask, Flask-RESTX, Flask-SQLAlchemy, Flask-JWT-Extended
-* **Swagger UI Docs:** `http://localhost:5002/api/docs`
+### 2. Frontend (Client-side)
+* **Bahasa Pemrograman:** HTML5, CSS3 (Vanilla), JavaScript (ES6+ Vanilla)
+* **Penyajian (Serving):** Disajikan langsung sebagai file statis oleh Flask di sisi Auth Service, sehingga tidak memerlukan framework tambahan seperti React atau Vue (membuat load time sangat cepat).
+* **Icon Pack:** Tabler Icons (via CDN)
+
+---
+
+## 👥 Role Pengguna (User Roles)
+
+MediQueue mendukung **4 role pengguna** dengan hak akses dan fitur yang berbeda-beda:
+
+| No | Role | Deskripsi Fitur & Hak Akses | Halaman Dashboard |
+|---|---|---|---|
+| **1** | **Pasien** | <ul><li>Melakukan pendaftaran akun & login</li><li>Mengambil nomor antrian baru berdasarkan poli yang dituju</li><li>Memantau estimasi antrian dan nomor yang sedang dipanggil secara real-time</li><li>Membatalkan antrian sendiri</li><li>Melihat riwayat antrian sebelumnya</li></ul> | `dashboard_pasien.html` |
+| **2** | **Petugas** | <ul><li>Melihat daftar seluruh antrian aktif hari ini di klinik</li><li>Memanggil nomor antrian pasien (*Call*)</li><li>Membatalkan antrian jika pasien tidak hadir</li></ul> | `dashboard_petugas.html` |
+| **3** | **Dokter** | <ul><li>Melihat daftar antrian pasien di polinya masing-masing</li><li>Memanggil pasien masuk ke ruang periksa</li><li>Menandai status antrian menjadi `selesai` setelah pasien diperiksa</li></ul> | `dashboard_petugas.html` |
+| **4** | **Admin** | <ul><li>Memantau status klinik secara global</li><li>Mengatur kehadiran dokter (*Hadir* / *Tidak Hadir*) hari ini</li><li>Mengubah status aktif/praktik dokter</li></ul> | `dashboard_admin.html` |
 
 ---
 
@@ -92,12 +110,12 @@ pip install -r requirements.txt
 
 ### 3. Setup Database MySQL
 Buatlah dua database baru di MySQL Anda:
-1. `mediqueue_auth_db`
-2. `mediqueue_queue_db`
+1. `mediqueue_auth_db` (Untuk data user, kredensial login, dan data dokter)
+2. `mediqueue_queue_db` (Untuk data antrian dan riwayat transaksi antrian)
 
 **Import Data Awal (Opsional):**
-* Import file `services/auth_service/seed_auth.sql` ke dalam database `mediqueue_auth_db`.
-* Import file `services/queue_service/seed_queue.sql` ke dalam database `mediqueue_queue_db`.
+* Import file `services/auth_service/seed_auth.sql` ke database `mediqueue_auth_db`.
+* Import file `services/queue_service/seed_queue.sql` ke database `mediqueue_queue_db`.
 
 *Catatan: Konfigurasi default menggunakan user `root` tanpa password di `localhost:3306`. Jika kredensial database Anda berbeda, sesuaikan variabel `SQLALCHEMY_DATABASE_URI` pada file `config.py` di masing-masing folder service.*
 
@@ -107,11 +125,11 @@ Anda dapat menjalankan kedua microservices sekaligus dengan menjalankan file scr
 run_services.bat
 ```
 Atau jalankan secara manual di dua terminal terpisah (pastikan venv aktif):
-* **Terminal 1 (Auth Service):**
+* **Terminal 1 (Auth Service - Port 5001):**
   ```bash
   python services/auth_service/app.py
   ```
-* **Terminal 2 (Queue Service):**
+* **Terminal 2 (Queue Service - Port 5002):**
   ```bash
   python services/queue_service/app.py
   ```
@@ -127,11 +145,11 @@ Setelah server berjalan, Anda dapat mengakses URL berikut di browser Anda:
 
 ---
 
-## 🔄 Aliran Komunikasi (Proxy & API)
+## 🔄 Aliran Komunikasi & Integrasi Microservices
 
-1. **Frontend** mengirimkan seluruh API request secara relatif ke host yang sama (port `5001`).
+1. **Frontend (Port 5001)** mengirimkan seluruh API request secara relatif (misal: `/api/auth/login` atau `/api/queue/status`).
 2. **Auth Service (Reverse Proxy)** menerima request tersebut:
-   * Jika request mengarah ke `/api/auth/*` atau `/api/dokter/*`, request akan diproses langsung secara lokal.
+   * Jika request mengarah ke `/api/auth/*` atau `/api/dokter/*`, request akan diproses langsung secara lokal oleh Auth Service.
    * Jika request mengarah ke `/api/queue/*` atau `/api/history/*`, request akan di-*proxy* (diteruskan) oleh Auth Service ke **Queue Service** di `http://localhost:5002`.
-3. **Queue Service** menggunakan **Stateless JWT Verification** dengan `JWT_SECRET_KEY` yang sama untuk memvalidasi token yang dikirimkan.
+3. **Queue Service** menggunakan **Stateless JWT Verification** dengan `JWT_SECRET_KEY` yang sama untuk memvalidasi token dari frontend secara mandiri tanpa memanggil Auth Service.
 4. Ketika Queue Service membutuhkan informasi detail profil pengguna (misalnya nama pasien), ia akan memanggil API Auth Service secara internal melalui `GET http://localhost:5001/api/auth/users/{user_id}`.
